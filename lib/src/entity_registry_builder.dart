@@ -3,7 +3,6 @@ import 'package:build/build.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:analyzer/dart/element/element.dart';
-import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:glob/glob.dart';
 
 class EntityRegistryBuilder implements Builder {
@@ -68,7 +67,7 @@ class EntityRegistryBuilder implements Builder {
 
     buffer.writeln('};');
 
-    buffer.writeln('\nclass GeneratedEntityRegistry extends EntityRegistry {');
+    buffer.writeln('\nfinal class GeneratedEntityRegistry extends EntityRegistry {');
     buffer.writeln('  GeneratedEntityRegistry(super.store);');
     buffer.writeln('\n  @override');
     buffer.writeln(

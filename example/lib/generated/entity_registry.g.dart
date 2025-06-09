@@ -27,7 +27,7 @@ final Map<String, EntityHandler> _generatedRegistry = {
   ),
 };
 
-class GeneratedEntityRegistry extends EntityRegistry {
+final class GeneratedEntityRegistry extends EntityRegistry {
   GeneratedEntityRegistry(super.store);
 
   @override
