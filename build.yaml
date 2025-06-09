@@ -5,36 +5,6 @@ targets:
         enabled: true
 
 builders:
-  # objectbox_registry|entity_registry:
-  #   import: "package:objectbox_registry/objectbox_registry.dart"
-  #   builder_factories: ["entityRegistryBuilder"]
-  #   build_extensions: {".dart": [".g.dart"]}
-  #   auto_apply: dependents
-  #   build_to: source
-
-  # property_product:
-  #   import: "package:objectbox_registry/objectbox_registry.dart"
-  #   builder_factories: ["productBuilder"]
-  #   build_extensions: {".dart": [".entity_registry.g.part"]}
-  #   auto_apply: root_package
-  #   build_to: source
-  #   applies_builders: ["source_gen|combining_builder"]
-
-  # objectbox_registry|entity_registry:
-  #   import: "package:objectbox_registry/objectbox_registry.dart"
-  #   builder_factories: ["entityRegistryBuilder"]
-  #   build_extensions: {".dart": ["entity_registry.g.dart"]}
-  #   auto_apply: dependents
-  #   build_to: source
-  #   applies_builders: ["source_gen|combining_builder"]
-
-  # entity_registry:
-  #   import: "package:objectbox_registry/objectbox_registry.dart"
-  #   builder_factories: ["entityRegistryBuilder"]
-  #   build_extensions: {"$lib$": ["generated/entity_registry.g.dart"]}
-  #   auto_apply: dependents
-  #   build_to: source
-
   entity_registry:
     import: "package:objectbox_registry/objectbox_registry.dart"
     builder_factories: ["entityRegistryBuilder"]
@@ -43,11 +13,3 @@ builders:
     build_to: source
     applies_builders: ["source_gen|combining_builder"]
     runs_before: ["json_serializable|json_serializable"]
-
-# targets:
-#   $default:
-#     builders:
-#       objectbox_registry|entity_registry:
-#         # import: "package:objectbox_registry/builder.dart"
-#         generate_for:
-#           - lib/generated_entity_registry.dart

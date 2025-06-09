@@ -6,7 +6,6 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:glob/glob.dart';
 
 class EntityRegistryBuilder implements Builder {
-
   final entityChecker = TypeChecker.fromRuntime(Entity);
 
   @override
@@ -16,7 +15,6 @@ class EntityRegistryBuilder implements Builder {
 
   @override
   Future<void> build(BuildStep buildStep) async {
-
     final classes = <ClassElement>[];
 
     await for (final input in buildStep.findAssets(Glob('lib/**.dart'))) {
@@ -33,7 +31,9 @@ class EntityRegistryBuilder implements Builder {
     final buffer = StringBuffer();
 
     buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
-    buffer.writeln("import 'package:objectbox/objectbox.dart';");
+    buffer.writeln("// ");
+    buffer.writeln("// generated from object_registry package");
+    buffer.writeln("// ");
     buffer.writeln(
       "import 'package:objectbox_registry/generated_entity_registry.dart';",
     );
@@ -67,11 +67,17 @@ class EntityRegistryBuilder implements Builder {
 
     buffer.writeln('};');
 
-    buffer.writeln('\nfinal class GeneratedEntityRegistry extends EntityRegistry {');
+    buffer.writeln(
+      '\nfinal class GeneratedEntityRegistry extends EntityRegistry {',
+    );
     buffer.writeln('  GeneratedEntityRegistry(super.store);');
     buffer.writeln('\n  @override');
     buffer.writeln(
       '  EntityHandler? get(String name) => _generatedRegistry[name];',
+    );
+    buffer.writeln('\n  @override');
+    buffer.writeln(
+      '  List<String>  getAllEntities() => _generatedRegistry.keys.toList();',
     );
     buffer.writeln('}');
 

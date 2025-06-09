@@ -15,6 +15,7 @@ import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'models/product.dart';
+import 'models/task.dart';
 import 'models/user.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -70,6 +71,34 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(3, 1857617260846048360),
+    name: 'TaskEntity',
+    lastPropertyId: const obx_int.IdUid(3, 2269923519942207237),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 5813999729173280352),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 5983614260259443210),
+        name: 'name',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 2269923519942207237),
+        name: 'description',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -110,7 +139,7 @@ Future<obx.Store> openStore({
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(2, 3744766122214962233),
+    lastEntityId: const obx_int.IdUid(3, 1857617260846048360),
     lastIndexId: const obx_int.IdUid(0, 0),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -201,6 +230,48 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    TaskEntity: obx_int.EntityDefinition<TaskEntity>(
+      model: _entities[2],
+      toOneRelations: (TaskEntity object) => [],
+      toManyRelations: (TaskEntity object) => {},
+      getId: (TaskEntity object) => object.id,
+      setId: (TaskEntity object, int id) {
+        object.id = id;
+      },
+      objectToFB: (TaskEntity object, fb.Builder fbb) {
+        final nameOffset = fbb.writeString(object.name);
+        final descriptionOffset = fbb.writeString(object.description);
+        fbb.startTable(4);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, nameOffset);
+        fbb.addOffset(2, descriptionOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final nameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final descriptionParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final object = TaskEntity(
+          id: idParam,
+          name: nameParam,
+          description: descriptionParam,
+        );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -231,4 +302,22 @@ class User_ {
 
   /// See [User.name].
   static final name = obx.QueryStringProperty<User>(_entities[1].properties[1]);
+}
+
+/// [TaskEntity] entity fields to define ObjectBox queries.
+class TaskEntity_ {
+  /// See [TaskEntity.id].
+  static final id = obx.QueryIntegerProperty<TaskEntity>(
+    _entities[2].properties[0],
+  );
+
+  /// See [TaskEntity.name].
+  static final name = obx.QueryStringProperty<TaskEntity>(
+    _entities[2].properties[1],
+  );
+
+  /// See [TaskEntity.description].
+  static final description = obx.QueryStringProperty<TaskEntity>(
+    _entities[2].properties[2],
+  );
 }

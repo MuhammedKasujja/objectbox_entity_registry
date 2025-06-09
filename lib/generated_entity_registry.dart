@@ -25,6 +25,8 @@ abstract class EntityRegistry {
 
   EntityHandler? get(String name);
 
+  List<String> getAllEntities();
+
   Box<T> box<T>() => store.box<T>();
 
   int save(String name, dynamic object) =>
